@@ -16,7 +16,7 @@ pool:
 
 
 stages:
-- stage: Test
+- stage: Build & Test
   jobs:
   - job: Test
     steps:
@@ -31,8 +31,8 @@ stages:
           testResultsFiles: '**/surefire-reports/TEST-*.xml'
           goals: 'package'
 
-- stage: Build
-  displayName: Build image
+- stage: Docker Build
+  displayName: Build docker image
   jobs:
   - job: Build
     displayName: Build
