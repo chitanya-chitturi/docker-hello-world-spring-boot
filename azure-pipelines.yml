@@ -16,7 +16,7 @@ pool:
 
 
 stages:
-- stage: Build & Test
+- stage: Build and Test
   jobs:
   - job: Test
     steps:
