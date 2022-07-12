@@ -34,8 +34,8 @@ stages:
 - stage: Docker Build
   displayName: Build docker image
   jobs:
-  - job: Build
-    displayName: Build
+  - job: Building-docker-image
+    displayName: Building-docker-image
     pool:
       vmImage: ubuntu-latest
     steps:
