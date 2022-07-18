@@ -14,28 +14,33 @@ variables:
 pool:
    vmImage: ubuntu-latest
 
-steps :
-- task: SonarQubePrepare@5
-  inputs:
-    SonarQube: 'springboot'
-    scannerMode: 'Other'
-    extraProperties: |
-      # Additional properties that will be passed to the scanner, 
-      # Put one key=value per line, example:
-      # sonar.exclusions=**/*.bin
-      sonar.projectKey=DevOps_-_Testing_Pipeline_DevOps_-_Testing_Pipeline_AYH8wEzAIImPLsZAfYYJ
-- task: JavaToolInstaller@0
-  inputs:
-    versionSpec: '11' 
-    jdkArchitectureOption:  x64
-    jdkSourceOption: PreInstalled
 
-- task: SonarQubeAnalyze@5
-- task: SonarQubePublish@5
-  inputs:
-    pollingTimeoutSec: '300'
 
 stages:
+- stage: Sonarqube reports
+  jobs:
+  - job: report
+    steps:
+    - task: SonarQubePrepare@5
+      inputs:
+        SonarQube: 'springboot'
+        scannerMode: 'Other'
+        extraProperties: |
+          # Additional properties that will be passed to the scanner, 
+          # Put one key=value per line, example:
+          # sonar.exclusions=**/*.bin
+              sonar.projectKey=DevOps_-_Testing_Pipeline_DevOps_-_Testing_Pipeline_AYH8wEzAIImPLsZAfYYJ
+    - task: JavaToolInstaller@0
+      inputs:
+        versionSpec: '11' 
+        jdkArchitectureOption:  x64
+        jdkSourceOption: PreInstalled
+
+    - task: SonarQubeAnalyze@5
+    - task: SonarQubePublish@5
+      inputs:
+        pollingTimeoutSec: '300'
+
 - stage: Build and Test
   jobs:
   - job: Test
