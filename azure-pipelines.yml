@@ -41,7 +41,7 @@ stages:
       inputs:
         pollingTimeoutSec: '300'
 
-- stage: Build and Test
+- stage: Build_and_Test
   jobs:
   - job: Test
     steps:
@@ -56,7 +56,7 @@ stages:
           testResultsFiles: '**/surefire-reports/TEST-*.xml'
           goals: 'package'
 
-- stage: Docker Build
+- stage: Docker_Build
   displayName: Build docker image
   jobs:
   - job: Building-docker-image
