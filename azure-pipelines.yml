@@ -36,10 +36,7 @@ stages:
         jdkArchitectureOption:  x64
         jdkSourceOption: PreInstalled
 
-    - task: SonarQubeAnalyze@5
-    - task: SonarQubePublish@5
-      inputs:
-        pollingTimeoutSec: '300'
+
 
 - stage: Build_and_Test
   jobs:
@@ -55,7 +52,9 @@ stages:
           publishJUnitResults: true
           testResultsFiles: '**/surefire-reports/TEST-*.xml'
           goals: 'package'
-
+          sonarQubeRunAnalysis: true
+          sqMavenPluginVersionChoice: 'latest'
+   
 - stage: Docker_Build
   displayName: Build docker image
   jobs:
