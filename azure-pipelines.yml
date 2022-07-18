@@ -59,7 +59,7 @@ stages:
 - stage: Docker_Build
   displayName: Build docker image
   jobs:
-  - job: Building-docker-image
+  - job: Building_docker_image
     displayName: Building-docker-image
     pool:
       vmImage: ubuntu-latest
