@@ -17,7 +17,7 @@ pool:
 
 
 stages:
-- stage: Sonarqube-reports
+- stage: Sonarqube_reports
   jobs:
   - job: report
     steps:
