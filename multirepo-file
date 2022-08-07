@@ -1,0 +1,77 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+variables:
+  tag: '$(Build.BuildId)'
+#  repo_name: '$(Build.Repository.Name)'
+
+pool:
+   vmImage: ubuntu-latest
+
+
+resources:
+  repositories:
+    - repository: java-work
+      type: git 
+      ref: main
+      name: Pipelines/java-work
+      trigger:
+        branches:
+          include:
+            - main
+            
+    - repository: central
+      type: git 
+      ref: main
+      name: Pipelines/central
+      trigger:
+        branches:
+          include:
+            - main
+       
+stages:
+
+- stage: Checkout
+  jobs:
+  - job: Checkout
+    steps:
+    - checkout: central
+    - checkout: java-work
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script:  |
+          echo $(git://Pipelines/$(Build.Repository.Name))
+
+ 
+- stage: Docker_Build
+  displayName: Build docker image
+  jobs:
+
+  - job: Building_docker_image
+    displayName: Building-docker-image
+    steps:
+    - checkout: git://Pipelines/central@main
+      condition: eq(variables['BUILD.REPOSITORY.NAME'], 'central')
+    - checkout: git://Pipelines/java-work@main
+      condition: eq(variables['BUILD.REPOSITORY.NAME'], 'java-work')   
+
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: build
+      #  dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+        dockerfile: '$(BUILD.REPOSITORY.NAME)/Dockerfile'
+        tags: |
+          $(tag)
+         
+    
+ 
+    
+
+
+
+
+
+   
